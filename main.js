@@ -1,6 +1,7 @@
 import { StartMenu } from './scenes/StartMenu.js';
 import { MainLevel } from './scenes/MainLevel.js';
 import { GameOver } from './scenes/GameOver.js';
+import { InfoTab } from './scenes/InfoTab.js'
 
 let config = {
     type: Phaser.AUTO,
@@ -15,11 +16,11 @@ let config = {
         arcade: {
             debug: false,
             fps: 60,
-            gravity: { y: 0 }
+            gravity: { y: 600}
         }
     },
     scene: [ 
-      StartMenu, GameOver, MainLevel
+      StartMenu, GameOver, MainLevel, InfoTab
     ]
 };
 

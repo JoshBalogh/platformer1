@@ -4,12 +4,17 @@ export class GameOver extends Phaser.Scene {
   }
 
   preload() {
-    
+    console.log('game over chooms')
   }
 
   create() {
     this.add.text(100, 100, "Game Over!");
+    this.startScene = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
   }
 
-  update() {}
+  update() {
+    if(this.startScene.isDown){
+      this.scene.start('main-level')
+    }
+  }
 }
