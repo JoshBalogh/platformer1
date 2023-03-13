@@ -1,4 +1,4 @@
-
+import {Detection} from '../Objects/Detection.js'
 export class Enemy extends Phaser.GameObjects.Rectangle{
     constructor(scene, target, config = {} ){
         super(scene, config.x, config.y, config.wd, config.ht, config.color, config.hp)
@@ -12,29 +12,48 @@ export class Enemy extends Phaser.GameObjects.Rectangle{
             this.height = config.ht
             this.color = config.color
             this.dm = config.dm
-            this.sp = config.sp 
+            this.sp = config.sp //speed
             this.hp = config.hp 
             this.target = target
             this.alive = true
-
+            //look @ last project and use the system for finding new enemies i think that will help alot 
+            this.detection = new Detection(this.scene, config.x, config.y)
             this.setOrigin(1)
+            this.detectingSomething()
 
     }
     preUpdate(){
-        //have enemy chase player in a radius | enemies not chasing | dont understand y
-       if(this.alive){
-            this.scene.physics.moveToObject(this, this.target, 50)
-//to not have enemy float not allow to change Y
-        }else {
-            this.sp = 0
-        }
-      this.body.setVelocityY(2)
+       //this gets the detection circle to move with the enemy
+       this.detection.setPosition(this.body.position.x, this.body.position.y)
+       //to not have enemy float not allow to change Y 
+      this.body.setVelocityY(0)
     }
+
+    
     create(){}
     takeHit(damage){
         this.hp -= damage
         if(this.hp <= 0){
+            this.detection.destroy()
             this.destroy()
+            this.alive = false
         }
+    }
+
+
+    detectingSomething(){
+        this.scene.physics.add.overlap(
+            this.detection, 
+            this.target,
+            this.attack,
+            null,
+            this
+        )
+    
+    }
+    attack(){
+        if(this.alive){
+            this.scene.physics.moveToObject(this, this.target, 50)
+       } 
     }
 }

@@ -4,7 +4,6 @@ export class InfoTab extends Phaser.Scene{
 
     }
     preload(){
-    console.log('your in here')
     }
 
     create(){
@@ -12,14 +11,14 @@ export class InfoTab extends Phaser.Scene{
 
         //info text 
         this.make.text({
-            x:150,
+            x:400,
             y:150,
-            text:'W = jump  A = Left      D = Right     S = Crouch etc...             Press SPACE to go back',
+            text:'W = jump  A = Left     D = Right    S = Crouch    SPACE = Stance          J = Stab                                              Press SPACE to go back',
             origin: {},
             style:{
                 font:'bold 25px Arial',
                 fill:'white',
-                wordWrap: {width:150}
+                wordWrap: {width:600}
             }
         })
 

@@ -1,6 +1,7 @@
 export class StartMenu extends Phaser.Scene {
   constructor() {
     super({ key: "start-menu", active: true });
+
     
   }
 
@@ -13,14 +14,15 @@ export class StartMenu extends Phaser.Scene {
 
     //making a group for the sprite to add all the physics needy thingys
     this.group = this.physics.add.group({
-        bounceX: 1.4,
-        bounceY: 1.3,
+        bounceX: 0,
+        bounceY: 0,
         collideWorldBounds: true,
     })
 
     //creating from the group physics into the sprite 'red' | .setCircle is the radius half the diameter 
     this.red1 = this.group.create(200,500,'red').setCircle(43)
     this.red2 = this.group.create(600,500,'red').setCircle(43)
+  
 
 
     //welcome text 
@@ -55,7 +57,7 @@ export class StartMenu extends Phaser.Scene {
     //welcome text physics | adding it to physics | makeing the text collide with the perimeter | makes it bouncy
     this.physics.add.existing(this.welcome)
     this.welcome.body.collideWorldBounds = true
-    this.welcome.body.setBounce(1.5,1.2)
+
 
     this.welcome.body.setVelocity(0,0)
     //adding this method to create AKA making it exist(i think)

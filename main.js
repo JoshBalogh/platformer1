@@ -6,7 +6,7 @@ import { InfoTab } from './scenes/InfoTab.js'
 let config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
-    width: 800,
+    width: 1000,
     height: 600,
     input: {
         gamepad: true
@@ -14,7 +14,7 @@ let config = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: false,
+            debug: true,
             fps: 60,
             gravity: { y: 600}
         }

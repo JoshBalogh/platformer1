@@ -34,7 +34,7 @@ export class MainLevel extends Phaser.Scene {
     this.enemies = []
 
     this.newbie = new Player(this, 50, 600)
-    this.goblin1 = new Enemy(this, this.newbie,{ x:505, y:600, wd: 60, ht: 70, color: 0x111111, hp:5})
+    this.goblin1 = new Enemy(this, this.newbie,{ x:505, y:600, wd: 60, ht: 70, color: 0x111111, hp:25})
     
     this.enemies.push(this.goblin1)
     
@@ -73,12 +73,14 @@ export class MainLevel extends Phaser.Scene {
         this
       )
 
+      //get it only attack ever .5 sec
       this.physics.add.overlap(
         this.newbie.spear, 
         this.enemies, 
         (n,e)=>{
           console.log('worked') //inline method
           if(this.newbie.spearAttack) e.takeHit(5)
+          console.log(`${this.newbie.spearAttack}`)
         },
         null,
         this

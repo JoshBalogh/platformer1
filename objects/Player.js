@@ -5,6 +5,7 @@ export class Player extends Phaser.GameObjects.Rectangle {
         this.scene.physics.add.existing(this)
         this.scene.add.existing(this)
         this.body.collideWorldBounds = true
+
         
         //sets the origin so the player rectangle shrink from top to bottom
         this.setOrigin(1)
@@ -13,12 +14,13 @@ export class Player extends Phaser.GameObjects.Rectangle {
         //all the movement keys
         this.rightMove = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
         this.leftMove = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-        this.jumpMove = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+        this.jumpMove = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         this.crouchMove = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+        this.pauseMove = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
         //attack keys
-        this.attackRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J)
-        this.attackLeft = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H)
+        this.attack = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J)
+       // this.attackLeft = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H)
 
 
        // create a square resembling a spear
@@ -34,8 +36,10 @@ export class Player extends Phaser.GameObjects.Rectangle {
 
 
         this.spearAttack = false
+        //for spear stabs have a timer of when ever you press the button it will only activate once
     }
     preUpdate(){
+
         /*if player on floor then jumps = 0 else if jumps = 0 but it isn't on floor it will add to jump so when 
         maxJumps are at 2(or what you put it at)*/
         if(this.body.onFloor()) {
@@ -48,12 +52,12 @@ export class Player extends Phaser.GameObjects.Rectangle {
         //setting position for spear
         this.spear.setPosition(this.body.x + 30, this.body.y + 50)
         //spear moves right
-        if(this.attackRight.isDown){ 
+        if(this.attack.isDown && this.rightMove.isDown && this.pauseMove.isDown){ 
             this.spearAttack = true
             this.spear.x += 50
         }
         //spear moves left
-        if(this.attackLeft.isDown){ 
+        if(this.attack.isDown && this.leftMove.isDown && this.pauseMove.isDown){ 
             this.spearAttack = true
             this.spear.x -= 50
            
@@ -87,5 +91,10 @@ export class Player extends Phaser.GameObjects.Rectangle {
         }else{
             this.body.setVelocityX(0)
         }
+
+        if(this.pauseMove.isDown){
+            this.body.setVelocityX(0)
+        }
     }
+       
 }
