@@ -8,6 +8,7 @@ export class MainLevel extends Phaser.Scene {
 
   preload() {
     this.load.image('background', 'image/background1.png')
+   // this.load.spriteSheet('PlayerIdle', 'image/Player_Idle.png')
   }
   addPlatform(x, y, wd, ht){
     const platform = this.add.rectangle(x, y, wd, ht, 0x228B22)
@@ -73,14 +74,19 @@ export class MainLevel extends Phaser.Scene {
         this
       )
 
-      //get it only attack ever .5 sec
+
       this.physics.add.overlap(
         this.newbie.spear, 
         this.enemies, 
         (n,e)=>{
-          console.log('worked') //inline method
-          if(this.newbie.spearAttack) e.takeHit(5)
-          console.log(`${this.newbie.spearAttack}`)
+          console.log(`${n.canHit} collider worked`) //inline method
+          if(n.canHit) {
+            e.takeHit(5)
+            console.log(e.hp)
+            console.log(`${n.canHit} in attack`)
+            n.canHit = false
+            console.log(`${n.canHit} after attack`)
+          }
         },
         null,
         this

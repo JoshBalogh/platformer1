@@ -34,11 +34,16 @@ export class Player extends Phaser.GameObjects.Rectangle {
         this.maxJumps = 2
         this.jumpCooldown = false
 
+        this.spear.canHit = false
 
-        this.spearAttack = false
-        //for spear stabs have a timer of when ever you press the button it will only activate once
+
+       
     }
     preUpdate(){
+
+      //  this.load.spriteSheet('PlayerIdle', './image/Player_Idle.png')
+
+
 
         /*if player on floor then jumps = 0 else if jumps = 0 but it isn't on floor it will add to jump so when 
         maxJumps are at 2(or what you put it at)*/
@@ -52,16 +57,30 @@ export class Player extends Phaser.GameObjects.Rectangle {
         //setting position for spear
         this.spear.setPosition(this.body.x + 30, this.body.y + 50)
         //spear moves right
-        if(this.attack.isDown && this.rightMove.isDown && this.pauseMove.isDown){ 
+        if(this.attack.isDown && !this.spear.canHit) {// && this.rightMove.isDown && this.pauseMove.isDown && !this.spear.canHit){ 
             this.spearAttack = true
+            //chech spear up and out might have gotten those mixed up
+            console.log(`${this.spear.canHit} set at start of preUpdater and changing to true`)
+            this.spear.canHit = true
+
             this.spear.x += 50
         }
         //spear moves left
         if(this.attack.isDown && this.leftMove.isDown && this.pauseMove.isDown){ 
             this.spearAttack = true
+            this.spear.canHit = true
             this.spear.x -= 50
+            console.log(`${this.spear.canHit} attack isDown`)
            
         }
+
+        if(this.attack.isUp){
+            this.spearAttack = false
+            this.spear.canHit = false
+            console.log(`${this.spear.canHit} attack isUp`)
+            // TODO ?: if you pull the spear back before it hits enemy it wont do damage 
+        }
+        
 
         //setting player height & scale
         this.scaleY = 1
