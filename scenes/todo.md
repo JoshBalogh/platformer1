@@ -20,3 +20,7 @@ start on next level of dungeon (need to learn TILED to make map)
 FIXES NEED | 
 * added the true or false for spear collision it detects it being true but it then doesn't collide
 * enemy is immediately hit marking me(idk y)
+
+
+
+when pressing down J somethings still set to true and its keep on 

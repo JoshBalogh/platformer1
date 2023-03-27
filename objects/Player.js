@@ -1,16 +1,17 @@
-export class Player extends Phaser.GameObjects.Rectangle {
+export class Player extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y) {
-        super(scene, x, y, 60, 100, 0xADD8E6) 
+        super(scene, x, y, 'playerIdle') 
         this.scene = scene
         this.scene.physics.add.existing(this)
         this.scene.add.existing(this)
         this.body.collideWorldBounds = true
 
+
         
         //sets the origin so the player rectangle shrink from top to bottom
         this.setOrigin(1)
-
-
+        this.setScale(.2)
+        
         //all the movement keys
         this.rightMove = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
         this.leftMove = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
@@ -34,14 +35,14 @@ export class Player extends Phaser.GameObjects.Rectangle {
         this.maxJumps = 2
         this.jumpCooldown = false
 
-        this.spear.canHit = false
+        this.spear.setData(`canHit`, true)
+        this.spear.setData(`spearAttack`, false)
 
 
        
     }
     preUpdate(){
-
-      //  this.load.spriteSheet('PlayerIdle', './image/Player_Idle.png')
+        
 
 
 
@@ -57,38 +58,32 @@ export class Player extends Phaser.GameObjects.Rectangle {
         //setting position for spear
         this.spear.setPosition(this.body.x + 30, this.body.y + 50)
         //spear moves right
-        if(this.attack.isDown && !this.spear.canHit) {// && this.rightMove.isDown && this.pauseMove.isDown && !this.spear.canHit){ 
-            this.spearAttack = true
-            //chech spear up and out might have gotten those mixed up
-            console.log(`${this.spear.canHit} set at start of preUpdater and changing to true`)
-            this.spear.canHit = true
-
+        if(this.attack.isDown && this.rightMove.isDown && this.pauseMove.isDown){ 
+            //check spear up and out might have gotten those mixed up | try DATA next time
+            console.log(`${this.spear.getData(`canHit`)} set at start of preUpdater and changing to true`)
+            this.spear.setData(`spearAttack`, true)
             this.spear.x += 50
         }
         //spear moves left
         if(this.attack.isDown && this.leftMove.isDown && this.pauseMove.isDown){ 
-            this.spearAttack = true
-            this.spear.canHit = true
+            this.spear.setData(`spearAttack`, true)
             this.spear.x -= 50
-            console.log(`${this.spear.canHit} attack isDown`)
+            console.log(`${this.spear.getData(`canHit`)} attack isDown`)
            
         }
 
         if(this.attack.isUp){
-            this.spearAttack = false
-            this.spear.canHit = false
-            console.log(`${this.spear.canHit} attack isUp`)
+            this.spear.setData(`canHit`, true)
+            this.spear.setData(`spearAttack`, false)
+            console.log(`${this.spear.getData(`canHit`)} attack isUp`)
             // TODO ?: if you pull the spear back before it hits enemy it wont do damage 
         }
-        
+         
 
         //setting player height & scale
-        this.scaleY = 1
+
     
-        //for player crouch
-        if(this.crouchMove.isDown){
-            this.scaleY = .5;
-        }
+ 
 
         //player jump needs to be on floor
         if(this.jumpMove.isDown){
@@ -104,9 +99,12 @@ export class Player extends Phaser.GameObjects.Rectangle {
         //evertime it checks if it's right key, left key, or no key
         if(this.rightMove.isDown){
             this.body.setVelocityX(200)
+            this.flipX = false
+            this.anims.play('Idling')
         }else 
         if(this.leftMove.isDown){
             this.body.setVelocityX(-200)
+            this.flipX = true
         }else{
             this.body.setVelocityX(0)
         }
@@ -114,6 +112,8 @@ export class Player extends Phaser.GameObjects.Rectangle {
         if(this.pauseMove.isDown){
             this.body.setVelocityX(0)
         }
+
+
     }
        
 }

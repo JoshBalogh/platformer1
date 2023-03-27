@@ -4,7 +4,8 @@ import { GameOver } from './scenes/GameOver.js';
 import { InfoTab } from './scenes/InfoTab.js'
 
 let config = {
-    type: Phaser.AUTO,
+    type: Phaser.AUTO, 
+  //  pixelArt: true, | dont know what this does it was a scaling test
     parent: 'phaser-example',
     width: 1000,
     height: 600,

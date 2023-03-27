@@ -8,7 +8,8 @@ export class MainLevel extends Phaser.Scene {
 
   preload() {
     this.load.image('background', 'image/background1.png')
-   // this.load.spriteSheet('PlayerIdle', 'image/Player_Idle.png')
+    this.load.atlas('playerIdle', 'image/playerIdleSheet.png', 'image/playerIdleSprites.json')
+    this.load.atlas('slimeMove', 'image/slimeMovesheet.png', 'image/SlimeMovesprites.json')
   }
   addPlatform(x, y, wd, ht){
     const platform = this.add.rectangle(x, y, wd, ht, 0x228B22)
@@ -22,6 +23,11 @@ export class MainLevel extends Phaser.Scene {
     // this runs once when the scene is created
     // initialize variables and create object here
 
+
+    //creating animations
+    this.anims.create({ key: 'Idling', frames: this.anims.generateFrameNames('playerIdle', {prefix: 'idle', end: 3, zeroPad: 2}), repeat: -1});
+    this.anims.create({ key: 'Moving', frames: this.anims.generateFrameNames('slimeMove', {prefix: 'move', end: 8, zeroPad: 2}), repeat: -1});
+    
     // create colliders after all objects exist
     this.group = this.physics.add.group({
           collideWorldBounds: true,
@@ -35,6 +41,8 @@ export class MainLevel extends Phaser.Scene {
     this.enemies = []
 
     this.newbie = new Player(this, 50, 600)
+    this.newbie.anims.play('Idling')
+
     this.goblin1 = new Enemy(this, this.newbie,{ x:505, y:600, wd: 60, ht: 70, color: 0x111111, hp:25})
     
     this.enemies.push(this.goblin1)
@@ -79,13 +87,14 @@ export class MainLevel extends Phaser.Scene {
         this.newbie.spear, 
         this.enemies, 
         (n,e)=>{
-          console.log(`${n.canHit} collider worked`) //inline method
-          if(n.canHit) {
+              console.log(`${n.getData(`canHit`)} collider worked`) //inline method
+          if(n.getData(`canHit`) && n.getData(`spearAttack`)) {
             e.takeHit(5)
-            console.log(e.hp)
-            console.log(`${n.canHit} in attack`)
-            n.canHit = false
-            console.log(`${n.canHit} after attack`)
+              console.log(e.hp)
+              console.log(`${n.getData(`canHit`)} in attack`)
+            n.setData(`canHit`, false)
+              console.log(`${this.newbie.spear.getData(`canHit`)} after attack (newbieSpear)`)
+              console.log(`${n.getData(`canHit`)} after attack`)
           }
         },
         null,

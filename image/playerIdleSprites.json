@@ -1,0 +1,5 @@
+{"frames":[
+    {"filename":"idle00","frame":{"x":126,"y":135,"w":294,"h":957},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":294,"h":957},"sourceSize":{"w":294,"h":957}},
+    {"filename":"idle02","frame":{"x":898,"y":139,"w":298,"h":952},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":298,"h":952},"sourceSize":{"w":298,"h":952}},
+    {"filename":"idle01","frame":{"x":507,"y":142,"w":294,"h":956},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":294,"h":956},"sourceSize":{"w":294,"h":956}}
+],"meta":{"app":"https://www.leshylabs.com/apps/sstool/","version":"Leshy SpriteSheet Tool v0.8.4","image":"playerIdleSheet.png","size":{"w":2048,"h":1536},"scale":1}}
