@@ -13,6 +13,8 @@ export class Detection extends Phaser.GameObjects.Ellipse{
     }
     preUpdate(){
        /*using this class to see if detected then move to target i feel like this will be better for adding it to multiple enemies and so the enemies 
-       can have different types of stuff i don't know exactly yet tho*/         
+       can have different types of stuff i don't know exactly yet tho
+       
+       FIGURE OUT IF IM GOING TO USE THIS  */         
     }
 }

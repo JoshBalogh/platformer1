@@ -34,9 +34,9 @@ export class MainLevel extends Phaser.Scene {
           originX: 1,
           originY: 1
     })
+      //for background make it setGravity(false) && setImmovable(true) 
     this.background = this.group.create(0, 0, 'background')
-    //for background make it setGravity(false) && setImmovable(true) 
-
+    
     this.platforms = []
     this.enemies = []
 
@@ -46,9 +46,12 @@ export class MainLevel extends Phaser.Scene {
     this.goblin1 = new Enemy(this, this.newbie,{ x:505, y:600, wd: 60, ht: 70, color: 0x111111, hp:25})
     
     this.enemies.push(this.goblin1)
+
+    //if slime detection = true then run 'Moving' animatin
+    //if(){};
     
 
-    //stuff for camera and world bounds
+      //stuff for camera and world bounds
     this.physics.world.bounds.width = 1600
     this.physics.world.bounds.height = 600
     this.cameras.main.setBounds(0, 0, 1600, 600)
@@ -63,8 +66,9 @@ export class MainLevel extends Phaser.Scene {
     // this runs every frame
     // delta can be used to determine the number of milliseconds since the last update
     
-    //if player is at x && presses (next button) === next scene
-    //can i have it to x 1500-1600?
+      /*when player is over certian point and presses B enters the dungeon 
+      is there a function for when player is around this area | thought of doing a collider for this
+      */
     if(this.nextScene.isDown && this.newbie.x === 1600){
       this.scene.start('dungeon-one')
     }

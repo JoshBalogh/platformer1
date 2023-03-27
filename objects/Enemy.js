@@ -1,16 +1,13 @@
 import {Detection} from '../Objects/Detection.js'
-export class Enemy extends Phaser.GameObjects.Rectangle{
+export class Enemy extends Phaser.GameObjects.Sprite{
     constructor(scene, target, config = {} ){
-        super(scene, config.x, config.y, config.wd, config.ht, config.color, config.hp)
+        super(scene, config.x, config.y, config.hp)
             this.scene = scene
             this.scene.add.existing(this)
             this.scene.physics.add.existing(this)
             this.body.collideWorldBounds = true 
             this.x = config.x
             this.y = config.y
-            this.width = config.wd
-            this.height = config.ht
-            this.color = config.color
             this.dm = config.dm
             this.sp = config.sp //speed
             this.hp = config.hp 
@@ -20,13 +17,14 @@ export class Enemy extends Phaser.GameObjects.Rectangle{
             this.detection = new Detection(this.scene, config.x, config.y)
             this.setOrigin(1)
             this.detectingSomething()
-
+                
+                /*NEED TO FIGURE OUT HOW IM GOING TO DO ENEMIES NOW WITH DIFFERENT SPRITES*/
     }
     preUpdate(){
-       //this gets the detection circle to move with the enemy
-       this.detection.setPosition(this.body.position.x, this.body.position.y)
-       //to not have enemy float not allow to change Y 
-      this.body.setVelocityY(0)
+            //this gets the detection circle to move with the enemy
+        this.detection.setPosition(this.body.position.x, this.body.position.y)
+            //to not have enemy float not allow to change Y 
+        this.body.setVelocityY(0)
     }
 
     
