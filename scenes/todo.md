@@ -1,26 +1,37 @@
-IDEAS | 
+IDEAS |  
+ 
+ (get these done by the end of spring break)
 
-spear has 2 detections 
-    overlap as it stands still(so enemies can go through)
-    then if spearAttack=true it turns to collider
+have different classes for the differnet type of slimes ie... bruteSlime, speedSlime, slime, bossSlime
 
-figure out how to use TILED to create the maps for game 
+tiled working during 
 
+player sprites done
 
-add the circle for enemies to be activated OR when on screen it go towards 
--have the enemies go attack when ever they spawn
+enemy sprites done
+    finished the sprite for reg slime 
+        still need to add timer for the attack so it doesn't do it repeditively 
 
+finish the tutorial level(this week)
 
-need to add sprites
--then find out how to make invisible shapes for detection
+get half of the first level finished by the end of spring break
 
-start on next level of dungeon (need to learn TILED to make map)
+when switching the enemy animation to attacking it falls down a couple pixels off lining the animation
 
-
-FIXES NEED | 
-* added the true or false for spear collision it detects it being true but it then doesn't collide
-* enemy is immediately hit marking me(idk y)
-
+add a timer for after the attacking animation sprite so it can reset 
 
 
-when pressing down J somethings still set to true and its keep on 
+
+
+**1
+when we write the sprite code we over write it this basically tells the code that "hey we actually need your code" so what it does it puts their code with ours | from  how i understand it. 
+
+
+
+
+bugs
+
+when you enter the first detecting circle the moving animation doesn't start but when you leave that circle the animation starts
+
+tried to add the enemy or player bounce after getting hit just doesn't work
+
