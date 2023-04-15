@@ -1,0 +1,33 @@
+{"frames":[
+    
+    {"filename":"stance00","frame":{"x":0,"y":0,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+
+    {"filename":"hit00","frame":{"x":768,"y":0,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"hit01","frame":{"x":1536,"y":0,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"hit02","frame":{"x":2304,"y":0,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+
+    {"filename":"stab00","frame":{"x":0,"y":512,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"stab01","frame":{"x":768,"y":512,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"stab02","frame":{"x":1536,"y":512,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+
+    {"filename":"slash00","frame":{"x":0,"y":1024,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"slash01","frame":{"x":768,"y":1024,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"slash02","frame":{"x":1536,"y":1024,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"slash03","frame":{"x":2304,"y":1024,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+
+    {"filename":"jump00","frame":{"x":0,"y":1536,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"jump01","frame":{"x":768,"y":1536,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"jump02","frame":{"x":1536,"y":1536,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"jump03","frame":{"x":2304,"y":1536,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+
+    {"filename":"run00","frame":{"x":0,"y":2048,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"run01","frame":{"x":768,"y":2048,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"run02","frame":{"x":1536,"y":2048,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+
+    {"filename":"idle00","frame":{"x":0,"y":2560,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"idle01","frame":{"x":768,"y":2560,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+    {"filename":"idle02","frame":{"x":1536,"y":2560,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}},
+
+    {"filename":"crouch00","frame":{"x":2304,"y":2560,"w":768,"h":512},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":768,"h":512},"sourceSize":{"w":768,"h":512}}
+    
+],"meta":{"app":"https://www.leshylabs.com/apps/sstool/","version":"Leshy SpriteSheet Tool v0.8.4","image":"Player_spritesheet.png","size":{"w":3071,"h":3070},"scale":1}}

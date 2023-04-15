@@ -9,7 +9,7 @@ export class MainLevel extends Phaser.Scene {
 
   preload() {
     this.load.image('background', 'image/background1.png')
-    this.load.atlas('playerIdle', 'image/playerIdleSheet.png', 'image/playerIdleSprites.json')
+    this.load.atlas('PlayerAnims', 'image/Player_spritesheet.png', 'image/Player_sprites.json')
     this.load.atlas('SlimeAnims', 'image/Slimespritesheet.png', 'image/Slimesprites.json')
   }
 
@@ -27,12 +27,21 @@ export class MainLevel extends Phaser.Scene {
 
     
 
-    // creating animations
-    this.anims.create({ key: 'Idling', frames: this.anims.generateFrameNames('playerIdle', {prefix: 'idle', end: 2, zeroPad: 2}), frameRate:5, repeat: -1});
+    // creating animations for player
+    this.anims.create({ key: 'Idling', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'idle', end: 2, zeroPad: 2}), frameRate:5, repeat: -1});
+    this.anims.create({ key: 'Running', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'run', end: 2, zeroPad: 2}), frameRate:5, repeat: -1});
+    this.anims.create({ key: 'StanceForm', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'stance', end: 0, zeroPad: 2}), frameRate:5, repeat: 0});
+    this.anims.create({ key: 'Jumping', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'jump', end: 2, zeroPad: 2}), frameRate:15, repeat: 0});
+    this.anims.create({ key: 'Crouching', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'crouch', end: 0, zeroPad: 2}), frameRate:5, repeat: -1});
+    this.anims.create({ key: 'Stabbing', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'stab', end: 2, zeroPad: 2}), frameRate:25, repeat: 0});
+    this.anims.create({ key: 'Slashing', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'slash', end: 3, zeroPad: 2}), frameRate:25, repeat: 0});
 
+
+
+    // creating animation for enemies
     this.anims.create({ key : 'slimeMove', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'move', end: 7, zeroPad: 2}), frameRate:5 , repeat: -1})
     this.anims.create({ key : 'slimeIdle', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'move', end: 0 , zeroPad: 2}), frameRate:5 , repeat: 0})
-    this.anims.create({ key: 'slimeAttack', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'attack', end: 7, zeroPad: 2}), frameRate: 5, repeat: 0})
+    this.anims.create({ key: 'slimeAttack', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'attack', end: 7, zeroPad: 2}), frameRate: 10, repeat: 0})
  
     // create colliders after all objects exist
     this.group = this.physics.add.group({
@@ -49,9 +58,9 @@ export class MainLevel extends Phaser.Scene {
 
     this.newbie = new Player(this, 50, 600)
     
-    this.mySlime = new Enemy(this, this.newbie, 505, 600, 25)
+    this.regSlime = new Enemy(this, this.newbie, 505, 600, 25)
     
-    this.enemies.push(this.mySlime)
+    this.enemies.push(this.regSlime)
 
     // stuff for camera and world bounds
     this.physics.world.bounds.width = 1600

@@ -14,15 +14,11 @@ export class Enemy extends Phaser.GameObjects.Sprite{
             // look @ last project and use the system for finding new enemies i think that will help alot 
             this.detection = new Detection(this.scene, this.x, this.y, 500, 500)
             this.attacksDetect = new Detection(this.scene, this.x, this.y, 200, 200) 
-            this.sqDetect = new sqDetection(this.scene, this.x, this.y, 200, 190)
             this.attacksDetect.setOrigin(.4)
-            this.setOrigin(.5)
+            this.setOrigin(1)
             this.setScale(.35)
-            this.body.setSize(350 ,200, true)
-            this.body.setOffset(160, 300)
             this.detectingSomething()
             this.attackingDetecting()
-            this.squareDetection()
             this.detected = false
             this.atDetect = false
         
@@ -34,13 +30,15 @@ export class Enemy extends Phaser.GameObjects.Sprite{
 
     }
     preUpdate(t, d){
+        
+        this.body.setSize(350 ,200, true)
+        this.body.setOffset(160, 300)
         // for sprites **1(in todo.md)
         super.preUpdate(t, d)
 
         // this gets the detection circle to move with the enemy
         this.detection.setPosition(this.body.position.x , this.body.position.y)
         this.attacksDetect.setPosition(this.body.position.x, this.body.position.y)
-        this.sqDetect.setPosition(this.body.position.x, this.body.position.y)
 
 
         this.attackTimer -= d
@@ -63,13 +61,14 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         if(this.atDetect){
             this.nextAnimation = 'slimeAttack'
             this.body.setVelocity(0)
+            this.body.setSize(450 ,400, true)
+            this.body.setOffset(50,50)
         }
         //console.log({active:this.activeAnimation, next:this.nextAnimation, attack:this.atDetect, move:this.detected})
 
         // only change the active animation if it has changed
         if(this.activeAnimation !== this.nextAnimation){
             this.anims.play(this.nextAnimation)
-            //console.log(`changing to ${this.nextAnimation}`)
             this.activeAnimation = this.nextAnimation
         }
 
@@ -78,9 +77,9 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         this.detected = false
 
         // if this.target.x < or > this.body.position then this tells it to flip the sprite or not
-        if(this.target.x - 5 <= this.body.position.x){
+        if(this.target.x + 300 <= this.body.position.x){
             this.flipX = false
-        }else if(this.target.x + 5  >= this.body.position.x){
+        }else if(this.target.x - 300  >= this.body.position.x){
             this.flipX = true
         }
         
@@ -99,15 +98,15 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         }
     }
 
-    squareDetection(){
-        this.scene.physics.add.collider(
-            this.target,
-            this.sqDetection
-            // this.activateSqDetect,
-            // null,
-            // this
-        )
-    }
+    // squareDetection(){
+    //     this.scene.physics.add.collider(
+    //         this.target,
+    //         this.sqDetection
+    //         // this.activateSqDetect,
+    //         // null,
+    //         // this
+    //     )
+    // }
 
     detectingSomething(){
         this.scene.physics.add.overlap(
