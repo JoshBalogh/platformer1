@@ -16,11 +16,12 @@ export class Enemy extends Phaser.GameObjects.Sprite{
             this.attacksDetect = new Detection(this.scene, this.x, this.y, 200, 200) 
             this.attacksDetect.setOrigin(.4)
             this.setOrigin(1)
-            this.setScale(.35)
+            this.setScale(.75)
             this.detectingSomething()
             this.attackingDetecting()
             this.detected = false
             this.atDetect = false
+            this.slimeFlipFlop = false
         
             this.attackCounter = 1000
             this.attackTimer = 1000
@@ -32,7 +33,7 @@ export class Enemy extends Phaser.GameObjects.Sprite{
     preUpdate(t, d){
         
         this.body.setSize(350 ,200, true)
-        this.body.setOffset(160, 300)
+        this.body.setOffset(160, 310)
         // for sprites **1(in todo.md)
         super.preUpdate(t, d)
 
@@ -60,9 +61,9 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         // override the nextAnimation if they are in the attacking zone
         if(this.atDetect){
             this.nextAnimation = 'slimeAttack'
-            this.body.setVelocity(0)
-            this.body.setSize(450 ,400, true)
-            this.body.setOffset(50,50)
+            this.body.setSize(350 ,450, true)
+            if(!this.slimeFlipFlop)
+            this.body.setOffset(160,50)
         }
         //console.log({active:this.activeAnimation, next:this.nextAnimation, attack:this.atDetect, move:this.detected})
 
@@ -79,8 +80,15 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         // if this.target.x < or > this.body.position then this tells it to flip the sprite or not
         if(this.target.x + 300 <= this.body.position.x){
             this.flipX = false
+            this.setData('boom', 'right')
         }else if(this.target.x - 300  >= this.body.position.x){
             this.flipX = true
+            this.slimeFlipFlop = true
+            this.setData('boom', 'left')
+        }
+
+        if(this.slimeFlipFlop && this.atDetect){
+            this.body.setOffset(2400,60)
         }
         
         // add a 2nd detection square where it's only activated when in the attacking animation
@@ -92,21 +100,11 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         this.hp -= damage
         if(this.hp <= 0){
             this.detection.destroy()
-            this.attackDetection.destroy()
+            this.attacksDetect.destroy()
             this.destroy()
             this.alive = false
         }
     }
-
-    // squareDetection(){
-    //     this.scene.physics.add.collider(
-    //         this.target,
-    //         this.sqDetection
-    //         // this.activateSqDetect,
-    //         // null,
-    //         // this
-    //     )
-    // }
 
     detectingSomething(){
         this.scene.physics.add.overlap(

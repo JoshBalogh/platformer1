@@ -4,6 +4,8 @@ import { Player } from '../objects/Player.js'
 export class MainLevel extends Phaser.Scene {
   constructor() {
     super({ key: "main-level" });
+    this.textToDungeon = false
+    this.text1 = false
 
   }
 
@@ -35,6 +37,7 @@ export class MainLevel extends Phaser.Scene {
     this.anims.create({ key: 'Crouching', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'crouch', end: 0, zeroPad: 2}), frameRate:5, repeat: -1});
     this.anims.create({ key: 'Stabbing', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'stab', end: 2, zeroPad: 2}), frameRate:25, repeat: 0});
     this.anims.create({ key: 'Slashing', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'slash', end: 3, zeroPad: 2}), frameRate:25, repeat: 0});
+    this.anims.create({ key: 'GotHit', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'hit', end: 2, zeroPad: 2}), frameRate:5, repeat: 0});
 
 
 
@@ -58,7 +61,7 @@ export class MainLevel extends Phaser.Scene {
 
     this.newbie = new Player(this, 50, 600)
     
-    this.regSlime = new Enemy(this, this.newbie, 505, 600, 25)
+    this.regSlime = new Enemy(this, this.newbie, 1505, 600, 25)
     
     this.enemies.push(this.regSlime)
 
@@ -69,8 +72,7 @@ export class MainLevel extends Phaser.Scene {
     this.cameras.main.startFollow(this.newbie)
 
     this.nextScene = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N)
-    
-   
+
     this.createColliders();
   }
 
@@ -80,14 +82,31 @@ export class MainLevel extends Phaser.Scene {
       /*when player is over certian point and presses B enters the dungeon 
       is there a function for when player is around this area | thought of doing a collider for this
       */
+    
 
     // sees if players past certain point, adds text, then players able to press N to go to next dungeon
-    if(this.newbie.x >= 1500){
-      this.add.text(1400, 200, 'press N to go on ')
+    if(this.newbie.x >= 1500){ 
+      if(!this.textToDungeon){
+        this.add.text(1400, 200, 'press N to go on')
+        this.textToDungeon = true
+      }
       if(this.nextScene.isDown){
         this.scene.start('dungeon-one')
       }
     }
+
+    if(this.newbie.x >= 350){
+      if(!this.text1){
+        this.startText = this.add.text(350, 200, 'set your direction (A or D) hold stance (SPACE) then J for stab and K for slash') 
+        this.text1 = true
+      }
+    }
+    if(this.newbie.x >= 950){
+      this.startText.destroy()
+    }
+  
+    
+
   }
 
   createColliders() {
@@ -104,7 +123,7 @@ export class MainLevel extends Phaser.Scene {
         this.enemies, 
         (n,e)=>{
           if(n.getData(`canHit`) && n.getData(`spearAttack`)) {
-            e.takeHit(5)
+            e.takeHit(1)
               console.log(e.hp)
             n.setData(`canHit`, false)
           }
@@ -120,18 +139,28 @@ export class MainLevel extends Phaser.Scene {
   }
   gameOver(n,e){
     //this.scene.start('game-over')
+      // player should go right
+      if(n.x - 50 < e.x - 50){
+        n.gettingHit = true
+        n.body.setVelocity(1000, 100)
+        e.body.setVelocity(-1000)
+      }
 
-    // if(this.newbie.x > this.enemies.x){
-    //   this.newbie.body.setBounce(200)
-    // }else{
+      // player should go left
+      if(n.x + 50 > e.x - 50){
+        n.gettingHit = true
+        n.body.setVelocity(-1000, -100)
+        e.body.setVelocity(1000)
+      }
+
+    // if(this.e.getData('boom') === 'right'){
+    //   this.n.gettingHit = true
+    //   this.n.body.setVelocity(-1000, -10)
+    //   console.log('gettinghit to the right')
+    // }else if(this.e.getData('boom') === 'left'){
+    //   this.n.gettingHit = true
+    //   this.n.body.setVelocity(1000,10)
     // }
-    
-    // using velocity it tries to override it which you cant 
-    // using bounce doesn't work it only bounces on the Y axis and i couldnt get it to turn off
-    // have to think of a way to either override velocity or just change it somehow ??? idk
-
-    //this.newbie.body.setBounce(1)
-    //this.newbie.body.setBounce(-2000,0)
   }
 
 

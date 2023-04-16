@@ -7,6 +7,7 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.body.collideWorldBounds = true
         this.setOrigin(1)
         this.anims.play('Idling')
+        this.gettingHit = false
 
         this.activeAnimation = 'Idling'
         this.nextAnimation = 'Idling'
@@ -34,8 +35,7 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.spear.body.setAllowGravity(false)
         this.spear.body.setOffset(120,15)
 
-
-        // jumps is how many jumps there are  | maxJumps is how many time you can jump | jumpCoolDown...
+        // jumps is how many jumps there are  | maxJumps is how many times you can jump | jumpCoolDown...
         this.jumps = 0
         this.maxJumps = 2
         this.jumpCooldown = false
@@ -57,18 +57,19 @@ export class Player extends Phaser.GameObjects.Sprite{
         } else if(this.jumps === 0){
              this.jumps++
         }
-        this.nextAnimation = 'Idling'
         
         // setting position for spear
-        this.spear.setPosition(this.body.x + 30, this.body.y + 50)
+        if(!this.FlipX){
+            this.spear.setPosition(this.body.x + 30, this.body.y + 50)
+        }else if(this.FlipX){
+            this.spear.setPosition(this.body.x - 210, this.body.y + 50)
+        }
 
-        
         // this is for when spear is back then it wont do damage to the enemy ever frame
-        if(this.attack.isUp){
+        if(this.attack.isUp || this.slash.isUP){
             this.spear.setData(`canHit`, true)
             this.spear.setData(`spearAttack`, false)
         }
-        this.body.setVelocityX(0)
 
         
 
@@ -83,6 +84,17 @@ export class Player extends Phaser.GameObjects.Sprite{
     }
 
     setNextAnimation() { 
+        if(this.gettingHit){
+            this.nextAnimation = 'GotHit'
+            this.gettingHit = false
+            return
+        }
+        // if(!this.gettingHit){
+        //     this.body.setVelocityX(0)
+        // }
+        
+        this.nextAnimation = 'Idling'
+
         // spear moves right
         if(this.attack.isDown && this.rightMove.isDown && this.pauseMove.isDown){ 
             this.spear.setData(`spearAttack`, true)
@@ -100,26 +112,32 @@ export class Player extends Phaser.GameObjects.Sprite{
             return
         }
 
+        // spear slash right side
         if(this.slash.isDown && this.rightMove.isDown && this.pauseMove.isDown){
             this.spear.setData('spearAttack', true)
             this.nextAnimation = 'Slashing'
+            this.spear.y += 80
+            this.spear.x += 50
             this.FlipX = false
             return
         }
+        // spear slash left side
         if(this.slash.isDown && this.leftMove.isDown && this.pauseMove.isDown){
             this.spear.setData('spearAttack', true)
             this.nextAnimation = 'Slashing'
+            this.spear.y += 80
+            this.spear.x -= 50
             this.FlipX = true
             return
         }
 
-        // makes the player stop so it's like your going into a stance | need to add this sprite
+        // evertime it checks if it's right key, left key, or no key
         if(this.pauseMove.isDown){
-            this.body.setVelocityX(0)
             this.nextAnimation = 'StanceForm'
+            this.body.setVelocityX(0)
             return
-        }
- 
+        } 
+
         // player jump needs to be on floor
         if(this.jumpMove.isDown){
             this.nextAnimation = 'Jumping'
@@ -132,39 +150,44 @@ export class Player extends Phaser.GameObjects.Sprite{
             }
         }else{
             this.jumpCooldown = false  
-        }  
-        
-        // evertime it checks if it's right key, left key, or no key
+        } 
+
         if(this.rightMove.isDown){
             this.body.setVelocityX(200)
             this.flipX = false
-            if(!this.jumpMove.isDown){
+            if(this.body.onFloor()){
                 this.nextAnimation = 'Running'
-                this.body.setSize(300,350, true)
-                this.body.setOffset(240,160)
+                this.body.setSize(150,350, true)
+                this.body.setOffset(325, 160)
+                return
             }
-            return
+                
         }
         
         if(this.leftMove.isDown){
             this.body.setVelocityX(-200)
             this.flipX = true 
-            if(!this.jumpMove.isDown){
+            if(this.body.onFloor()){
                 this.nextAnimation = 'Running'
-                this.body.setSize(300,350, true)
-                this.body.setOffset(240,160)
+                this.body.setSize(150,350, true)
+                this.body.setOffset(325, 160)
+                return;
             }
-            return;
+                
         }
-    
-       
-        
+
+        if(!this.body.onFloor()){
+                this.nextAnimation = 'Jumping'
+                return
+        }else{
+            this.body.setVelocityX(0)
+        }
+
         if(this.crouchMove.isDown){
-            this.nextAnimation = 'Crouching'
-            this.body.setSize(150,250, true)
-            this.body.setOffset(300,260 )
-            return
-        } 
-    }
-       
+                this.nextAnimation = 'Crouching'
+                this.body.setSize(150,250, true)
+                this.body.setOffset(300,260 )
+                return
+        }        
+    }    
 }
