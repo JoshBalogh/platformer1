@@ -1,12 +1,12 @@
 import { Enemy } from '../objects/Enemy.js';
 import { Player } from '../objects/Player.js'
+import { hitNumber } from '../objects/hitNumber.js'
 
 export class MainLevel extends Phaser.Scene {
   constructor() {
     super({ key: "main-level" });
     this.textToDungeon = false
     this.text1 = false
-
   }
 
   preload() {
@@ -27,8 +27,6 @@ export class MainLevel extends Phaser.Scene {
     // this runs once when the scene is created
     // initialize variables and create object here
 
-    
-
     // creating animations for player
     this.anims.create({ key: 'Idling', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'idle', end: 2, zeroPad: 2}), frameRate:5, repeat: -1});
     this.anims.create({ key: 'Running', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'run', end: 2, zeroPad: 2}), frameRate:5, repeat: -1});
@@ -38,8 +36,6 @@ export class MainLevel extends Phaser.Scene {
     this.anims.create({ key: 'Stabbing', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'stab', end: 2, zeroPad: 2}), frameRate:25, repeat: 0});
     this.anims.create({ key: 'Slashing', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'slash', end: 3, zeroPad: 2}), frameRate:25, repeat: 0});
     this.anims.create({ key: 'GotHit', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'hit', end: 2, zeroPad: 2}), frameRate:5, repeat: 0});
-
-
 
     // creating animation for enemies
     this.anims.create({ key : 'slimeMove', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'move', end: 7, zeroPad: 2}), frameRate:5 , repeat: -1})
@@ -62,6 +58,8 @@ export class MainLevel extends Phaser.Scene {
     this.newbie = new Player(this, 50, 600)
     
     this.regSlime = new Enemy(this, this.newbie, 1505, 600, 25)
+
+    this.hit = new hitNumber(this.enemies.x, this.enemies.y)
     
     this.enemies.push(this.regSlime)
 
@@ -74,6 +72,7 @@ export class MainLevel extends Phaser.Scene {
     this.nextScene = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N)
 
     this.createColliders();
+    
   }
 
   update(timestamp, delta) {
@@ -82,7 +81,6 @@ export class MainLevel extends Phaser.Scene {
       /*when player is over certian point and presses B enters the dungeon 
       is there a function for when player is around this area | thought of doing a collider for this
       */
-    
 
     // sees if players past certain point, adds text, then players able to press N to go to next dungeon
     if(this.newbie.x >= 1500){ 
@@ -101,11 +99,6 @@ export class MainLevel extends Phaser.Scene {
         this.text1 = true
       }
     }
-    if(this.newbie.x >= 950){
-      this.startText.destroy()
-    }
-  
-    
 
   }
 
@@ -123,9 +116,11 @@ export class MainLevel extends Phaser.Scene {
         this.enemies, 
         (n,e)=>{
           if(n.getData(`canHit`) && n.getData(`spearAttack`)) {
-            e.takeHit(1)
+            e.takeHit(5)
               console.log(e.hp)
+            console.log(this.hitting)
             n.setData(`canHit`, false)
+            this.hit
           }
         },
         null,
@@ -136,31 +131,29 @@ export class MainLevel extends Phaser.Scene {
         this.newbie, 
         this.platforms
       )
+
+      
+
   }
   gameOver(n,e){
-    //this.scene.start('game-over')
+
+      n.takeHit(5)
+        console.log(n.hp)
+
       // player should go right
       if(n.x - 50 < e.x - 50){
         n.gettingHit = true
-        n.body.setVelocity(1000, 100)
+        n.body.setVelocity(1000, -100)
         e.body.setVelocity(-1000)
       }
 
+      
       // player should go left
       if(n.x + 50 > e.x - 50){
         n.gettingHit = true
         n.body.setVelocity(-1000, -100)
         e.body.setVelocity(1000)
       }
-
-    // if(this.e.getData('boom') === 'right'){
-    //   this.n.gettingHit = true
-    //   this.n.body.setVelocity(-1000, -10)
-    //   console.log('gettinghit to the right')
-    // }else if(this.e.getData('boom') === 'left'){
-    //   this.n.gettingHit = true
-    //   this.n.body.setVelocity(1000,10)
-    // }
   }
 
 

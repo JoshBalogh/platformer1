@@ -8,14 +8,14 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.setOrigin(1)
         this.anims.play('Idling')
         this.gettingHit = false
+        this.hp = 50
+        this.hitTimer = 1000
 
         this.activeAnimation = 'Idling'
         this.nextAnimation = 'Idling'
 
         // sets the origin so the player rectangle shrink from top to bottom
         this.setScale(.5)
-        
-        
         
         // all the movement keys
         this.rightMove = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
@@ -35,6 +35,18 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.spear.body.setAllowGravity(false)
         this.spear.body.setOffset(120,15)
 
+
+        // creating hp bar
+        this.hpRed = this.scene.add.rectangle(200, 20, 200, 20, 0xff0000)
+        this.scene.physics.add.existing(this.hpRed)
+        this.hpRed.body.setAllowGravity(false)
+
+        this.hpGreen = this.scene.add.rectangle(200, 20, 200, 20, 0x00ff00)
+        this.scene.physics.add.existing(this.hpGreen)
+        this.hpGreen.body.setAllowGravity(false)
+
+        
+
         // jumps is how many jumps there are  | maxJumps is how many times you can jump | jumpCoolDown...
         this.jumps = 0
         this.maxJumps = 2
@@ -50,12 +62,23 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.body.setOffset(325, 160)
 
         super.preUpdate(t, d);
-            /*if player on floor then jumps = 0 else if jumps = 0 but it isn't on floor it will add to jump so when 
-            maxJumps are at 2(or what you put it at)*/
+
+        if(this.body.onFloor() && this.gettingHit){
+            this.gettingHit = false
+        }
+
+        this.hitTimer -= d
+
+        // hp bar is to follow player
+        this.hpRed.setPosition(this.body.x + 50, this.body.y - 100)
+        this.hpGreen.setPosition(this.body.x + 50, this.body.y - 100)
+
+
+        // if player on floor then jumps = 0 else if jumps = 0 but it isn't on floor it will add to jump so when maxJumps are at 2(or what you put it at)
         if(this.body.onFloor()) {
             this.jumps = 0 
         } else if(this.jumps === 0){
-             this.jumps++
+            this.jumps++
         }
         
         // setting position for spear
@@ -71,8 +94,6 @@ export class Player extends Phaser.GameObjects.Sprite{
             this.spear.setData(`spearAttack`, false)
         }
 
-        
-
         this.setNextAnimation()
 
         // to check if animations correct & if its not to override 
@@ -82,16 +103,23 @@ export class Player extends Phaser.GameObjects.Sprite{
             return
         }
     }
+    takeHit(damage){
+        if(this.hitTimer > 0) return
+        this.hitTimer = 1500
+        this.hp -= damage
+        this.hpGreen.width -= 20
+        if(this.hp <= 0){
+            this.destroy()
+            //this.scene.start('game-over')
+        }
+    }
 
     setNextAnimation() { 
         if(this.gettingHit){
             this.nextAnimation = 'GotHit'
-            this.gettingHit = false
+            console.log('working')
             return
         }
-        // if(!this.gettingHit){
-        //     this.body.setVelocityX(0)
-        // }
         
         this.nextAnimation = 'Idling'
 
@@ -152,8 +180,8 @@ export class Player extends Phaser.GameObjects.Sprite{
             this.jumpCooldown = false  
         } 
 
-        if(this.rightMove.isDown){
-            this.body.setVelocityX(200)
+        if(this.rightMove.isDown && !this.gettingHit){
+            this.body.setVelocityX(400)
             this.flipX = false
             if(this.body.onFloor()){
                 this.nextAnimation = 'Running'
@@ -165,7 +193,7 @@ export class Player extends Phaser.GameObjects.Sprite{
         }
         
         if(this.leftMove.isDown){
-            this.body.setVelocityX(-200)
+            this.body.setVelocityX(-400)
             this.flipX = true 
             if(this.body.onFloor()){
                 this.nextAnimation = 'Running'

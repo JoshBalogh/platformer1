@@ -1,6 +1,4 @@
 import {Detection} from '../Objects/Detection.js'
-import {sqDetection} from '../Objects/sqDetection.js'
-
 export class Enemy extends Phaser.GameObjects.Sprite{
     constructor(scene, target, x, y, hp){
         super(scene, x, y, 'SlimeAnims')
@@ -16,7 +14,7 @@ export class Enemy extends Phaser.GameObjects.Sprite{
             this.attacksDetect = new Detection(this.scene, this.x, this.y, 200, 200) 
             this.attacksDetect.setOrigin(.4)
             this.setOrigin(1)
-            this.setScale(.75)
+            this.setScale(.35)
             this.detectingSomething()
             this.attackingDetecting()
             this.detected = false
@@ -36,6 +34,8 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         this.body.setOffset(160, 310)
         // for sprites **1(in todo.md)
         super.preUpdate(t, d)
+
+        //console.log(this.attackTimer)
 
         // this gets the detection circle to move with the enemy
         this.detection.setPosition(this.body.position.x , this.body.position.y)
@@ -97,7 +97,9 @@ export class Enemy extends Phaser.GameObjects.Sprite{
 
     create(){}
     takeHit(damage){
+        if(this.attackTimer > 0) return
         this.hp -= damage
+        this.attackTimer = 300
         if(this.hp <= 0){
             this.detection.destroy()
             this.attacksDetect.destroy()

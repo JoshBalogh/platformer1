@@ -41,3 +41,5 @@ tried to add the enemy or player bounce after getting hit just doesn't work
 
 
 when player gets hit turn off player WASD  and change the velocity | previous problem was when player was getting hit it still had a velocity input... so the CODE didn't know what to do 
+need to add to this its not changing to the getting hit animation
+
