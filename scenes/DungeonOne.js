@@ -12,7 +12,7 @@ export class DungeonOne extends Phaser.Scene {
         const platform = this.add.rectangle(x, y, wd, ht, 0xff0000)
         this.physics.add.existing(platform)
         platform.body.setAllowGravity(false)
-        platform.body.setImmovable(true)
+        platform.body.setImmovable(true) 
         this.platforms.push(platform)
     }
 
