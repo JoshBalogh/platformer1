@@ -1,24 +1,14 @@
 IDEAS |  
- 
- (get these done by the end of spring break)
 
 have different classes for the differnet type of slimes ie... bruteSlime, speedSlime, slime, bossSlime
 
-tiled working during 
-
-player sprites done
+tiled working 
 
 enemy sprites done
-    finished the sprite for reg slime 
-        still need to add timer for the attack so it doesn't do it repeditively 
 
-finish the tutorial level(this week)
+level 1 finish it
 
-get half of the first level finished by the end of spring break
-
-when switching the enemy animation to attacking it falls down a couple pixels off lining the animation
-
-add a timer for after the attacking animation sprite so it can reset 
+boss level finish it
 
 
 
@@ -29,17 +19,17 @@ when we write the sprite code we over write it this basically tells the code tha
 
 
 
-bugs
-
-when you enter the first detecting circle the moving animation doesn't start but when you leave that circle the animation starts
-
-tried to add the enemy or player bounce after getting hit just doesn't work
+bugs[
+can hold attack button and do infinite damage | imma keep this unless i have time; just added a timer
+try if the button for attack is up reset the timer??? | if you do this make the timer of the spear hitting the enemy longer 
 
 
+background need to adjust the position
+try {
+setOrigin
+setScale - is to zoom out maybe??
+}
+]
 
 
-
-
-when player gets hit turn off player WASD  and change the velocity | previous problem was when player was getting hit it still had a velocity input... so the CODE didn't know what to do 
-need to add to this its not changing to the getting hit animation
 

@@ -35,6 +35,11 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.spear.body.setAllowGravity(false)
         this.spear.body.setOffset(120,15)
 
+        // adds a block so enemy can target it
+        this.block = this.scene.add.rectangle(this.body.x,this.body.y, 10, 10, 0x000000, 0)
+        this.scene.physics.add.existing(this.block)
+        this.block.body.setAllowGravity(false)
+
 
         // creating hp bar
         this.hpRed = this.scene.add.rectangle(200, 20, 200, 20, 0xff0000)
@@ -49,12 +54,13 @@ export class Player extends Phaser.GameObjects.Sprite{
 
         // jumps is how many jumps there are  | maxJumps is how many times you can jump | jumpCoolDown...
         this.jumps = 0
-        this.maxJumps = 2
+        this.maxJumps = 200000
         this.jumpCooldown = false
 
         // setData stuff ('first', true or false) | first is what the method is being called 
         this.spear.setData(`canHit`, true)
         this.spear.setData(`spearAttack`, false)
+        this.spear.setData(`slashspearAttack`, false)
 
     }
     preUpdate(t,d){
@@ -73,7 +79,6 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.hpRed.setPosition(this.body.x + 50, this.body.y - 100)
         this.hpGreen.setPosition(this.body.x + 50, this.body.y - 100)
 
-
         // if player on floor then jumps = 0 else if jumps = 0 but it isn't on floor it will add to jump so when maxJumps are at 2(or what you put it at)
         if(this.body.onFloor()) {
             this.jumps = 0 
@@ -89,9 +94,13 @@ export class Player extends Phaser.GameObjects.Sprite{
         }
 
         // this is for when spear is back then it wont do damage to the enemy ever frame
-        if(this.attack.isUp || this.slash.isUP){
+        if(this.attack.isUp){
             this.spear.setData(`canHit`, true)
             this.spear.setData(`spearAttack`, false)
+        }
+        if(this.slash.isUp){
+            this.spear.setData(`canHit`, true)
+            this.spear.setData(`slashspearAttack`, false)
         }
 
         this.setNextAnimation()
@@ -108,10 +117,6 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.hitTimer = 1500
         this.hp -= damage
         this.hpGreen.width -= 20
-        if(this.hp <= 0){
-            this.destroy()
-            //this.scene.start('game-over')
-        }
     }
 
     setNextAnimation() { 
@@ -141,8 +146,8 @@ export class Player extends Phaser.GameObjects.Sprite{
         }
 
         // spear slash right side
-        if(this.slash.isDown && this.rightMove.isDown && this.pauseMove.isDown){
-            this.spear.setData('spearAttack', true)
+        if(this.spear.getData('canHit') && this.slash.isDown && this.rightMove.isDown && this.pauseMove.isDown){
+            this.spear.setData('slashspearAttack', true)
             this.nextAnimation = 'Slashing'
             this.spear.y += 80
             this.spear.x += 50
@@ -151,7 +156,7 @@ export class Player extends Phaser.GameObjects.Sprite{
         }
         // spear slash left side
         if(this.slash.isDown && this.leftMove.isDown && this.pauseMove.isDown){
-            this.spear.setData('spearAttack', true)
+            this.spear.setData('slashspearAttack', true)
             this.nextAnimation = 'Slashing'
             this.spear.y += 80
             this.spear.x -= 50
@@ -183,6 +188,7 @@ export class Player extends Phaser.GameObjects.Sprite{
         if(this.rightMove.isDown && !this.gettingHit){
             this.body.setVelocityX(400)
             this.flipX = false
+            this.block.setPosition(this.body.x + 75, this.body.y + 100)
             if(this.body.onFloor()){
                 this.nextAnimation = 'Running'
                 this.body.setSize(150,350, true)
@@ -195,6 +201,7 @@ export class Player extends Phaser.GameObjects.Sprite{
         if(this.leftMove.isDown){
             this.body.setVelocityX(-400)
             this.flipX = true 
+            this.block.setPosition(this.body.x + 5, this.body.y + 100)
             if(this.body.onFloor()){
                 this.nextAnimation = 'Running'
                 this.body.setSize(150,350, true)

@@ -1,6 +1,6 @@
 import { Enemy } from '../objects/Enemy.js';
 import { Player } from '../objects/Player.js'
-import { hitNumber } from '../objects/hitNumber.js'
+import { SpdSlime } from '../objects/SpdSlime.js'
 
 export class MainLevel extends Phaser.Scene {
   constructor() {
@@ -13,6 +13,7 @@ export class MainLevel extends Phaser.Scene {
     this.load.image('background', 'image/background1.png')
     this.load.atlas('PlayerAnims', 'image/Player_spritesheet.png', 'image/Player_sprites.json')
     this.load.atlas('SlimeAnims', 'image/Slimespritesheet.png', 'image/Slimesprites.json')
+    this.load.atlas('SpdSlimeAnims', 'image/SpdSlimeSpritesheet.png', 'image/SpdSlimeSprites.json')
   }
 
   addPlatform(x, y, wd, ht){
@@ -37,10 +38,15 @@ export class MainLevel extends Phaser.Scene {
     this.anims.create({ key: 'Slashing', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'slash', end: 3, zeroPad: 2}), frameRate:25, repeat: 0});
     this.anims.create({ key: 'GotHit', frames: this.anims.generateFrameNames('PlayerAnims', {prefix: 'hit', end: 2, zeroPad: 2}), frameRate:5, repeat: 0});
 
-    // creating animation for enemies
+    // creating animation for reg slime
     this.anims.create({ key : 'slimeMove', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'move', end: 7, zeroPad: 2}), frameRate:5 , repeat: -1})
     this.anims.create({ key : 'slimeIdle', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'move', end: 0 , zeroPad: 2}), frameRate:5 , repeat: 0})
     this.anims.create({ key: 'slimeAttack', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'attack', end: 7, zeroPad: 2}), frameRate: 10, repeat: 0})
+
+    // creating animation for spd slime | the prefix is right i put it wrong
+    this.anims.create({ key: 'spdSlimeAttack', frames: this.anims.generateFrameNames('SpdSlimeAnims', {prefix: 'move', end: 2, zeroPad: 2}), frameRate: 5, repeat: 0})
+    this.anims.create({ key: 'spdSlimeMove', frames: this.anims.generateFrameNames('SpdSlimeAnims', {prefix: 'attack', end: 2, zeroPad: 2}), frameRate: 5, repeat: -1})
+    this.anims.create({ key: 'spdSlimeIdle', frames: this.anims.generateFrameNames('SpdSlimeAnims', {prefix: 'move', end: 0, zeroPad: 2}), frameRate: 5, repeat: 0})
  
     // create colliders after all objects exist
     this.group = this.physics.add.group({
@@ -57,11 +63,13 @@ export class MainLevel extends Phaser.Scene {
 
     this.newbie = new Player(this, 50, 600)
     
-    this.regSlime = new Enemy(this, this.newbie, 1505, 600, 25)
+    this.regSlime = new Enemy(this, this.newbie.block, 1205, 600, 25)
 
-    this.hit = new hitNumber(this.enemies.x, this.enemies.y)
+    //this.spdSlime = new SpdSlime(this, this.newbie.block, 905, 600, 50)
+
+
     
-    this.enemies.push(this.regSlime)
+    this.enemies.push(this.regSlime, this.spdSlime)
 
     // stuff for camera and world bounds
     this.physics.world.bounds.width = 1600
@@ -115,12 +123,12 @@ export class MainLevel extends Phaser.Scene {
         this.newbie.spear, 
         this.enemies, 
         (n,e)=>{
-          if(n.getData(`canHit`) && n.getData(`spearAttack`)) {
+          if(n.getData(`canHit`) && (n.getData(`spearAttack`) || n.getData('slashspearAttack'))) {
             e.takeHit(5)
               console.log(e.hp)
-            console.log(this.hitting)
+              console.log(this.gettingHit)
             n.setData(`canHit`, false)
-            this.hit
+            
           }
         },
         null,
@@ -140,19 +148,23 @@ export class MainLevel extends Phaser.Scene {
       n.takeHit(5)
         console.log(n.hp)
 
+      if(n.hp <= 0){
+        this.scene.start('game-over')
+      }
+
       // player should go right
       if(n.x - 50 < e.x - 50){
         n.gettingHit = true
-        n.body.setVelocity(1000, -100)
-        e.body.setVelocity(-1000)
+        n.body.setVelocity(650, -100)
+        e.body.setVelocity(-800, -100)
       }
 
       
       // player should go left
       if(n.x + 50 > e.x - 50){
         n.gettingHit = true
-        n.body.setVelocity(-1000, -100)
-        e.body.setVelocity(1000)
+        n.body.setVelocity(-650, -100)
+        e.body.setVelocity(800, -100)
       }
   }
 

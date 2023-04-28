@@ -1,4 +1,5 @@
-import {Detection} from '../Objects/Detection.js'
+import {Detection} from '../objects/Detection.js'
+import {HitNumber} from '../objects/HitNumber.js'
 export class Enemy extends Phaser.GameObjects.Sprite{
     constructor(scene, target, x, y, hp){
         super(scene, x, y, 'SlimeAnims')
@@ -29,22 +30,17 @@ export class Enemy extends Phaser.GameObjects.Sprite{
 
     }
     preUpdate(t, d){
-        
-        this.body.setSize(350 ,200, true)
-        this.body.setOffset(160, 310)
         // for sprites **1(in todo.md)
         super.preUpdate(t, d)
 
-        //console.log(this.attackTimer)
+        this.body.setSize(350 ,200, true)
+        this.body.setOffset(160, 310)
 
         // this gets the detection circle to move with the enemy
         this.detection.setPosition(this.body.position.x , this.body.position.y)
         this.attacksDetect.setPosition(this.body.position.x, this.body.position.y)
 
-
         this.attackTimer -= d
-        //console.log(`${this.attackTimer}`)
-       
 
         // to not have enemy float not allow to change Y 
         this.body.setVelocityY(0) 
@@ -61,9 +57,9 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         // override the nextAnimation if they are in the attacking zone
         if(this.atDetect){
             this.nextAnimation = 'slimeAttack'
-            this.body.setSize(350 ,450, true)
+            this.body.setSize(450 ,450, true)
             if(!this.slimeFlipFlop)
-            this.body.setOffset(160,50)
+            this.body.setOffset(90,50)
         }
         //console.log({active:this.activeAnimation, next:this.nextAnimation, attack:this.atDetect, move:this.detected})
 
@@ -94,12 +90,12 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         // add a 2nd detection square where it's only activated when in the attacking animation
         // when the enemy gets hit it gets pushed back so it can have a reset 
     }
-
     create(){}
     takeHit(damage){
         if(this.attackTimer > 0) return
         this.hp -= damage
         this.attackTimer = 300
+        new HitNumber(this.scene, this.x, this.y, damage)
         if(this.hp <= 0){
             this.detection.destroy()
             this.attacksDetect.destroy()
@@ -141,8 +137,4 @@ export class Enemy extends Phaser.GameObjects.Sprite{
                 this.attackTimer = this.attackCounter
             }
     }
-
-    // activateSqDetect(){
-    //     this.
-    // }
 }

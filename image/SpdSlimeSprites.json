@@ -1,0 +1,8 @@
+{"frames":[
+    {"filename":"move00","frame":{"x":0,"y":0,"w":384,"h":384},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":384,"h":384},"sourceSize":{"w":384,"h":384}},
+    {"filename":"move01","frame":{"x":384,"y":0,"w":384,"h":384},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":384,"h":384},"sourceSize":{"w":384,"h":384}},
+    {"filename":"move02","frame":{"x":768,"y":0,"w":384,"h":384},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":384,"h":384},"sourceSize":{"w":384,"h":384}},
+    {"filename":"attack00","frame":{"x":0,"y":384,"w":384,"h":384},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":384,"h":384},"sourceSize":{"w":384,"h":384}},
+    {"filename":"attack01","frame":{"x":384,"y":384,"w":384,"h":384},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":384,"h":384},"sourceSize":{"w":384,"h":384}},
+    {"filename":"attack02","frame":{"x":768,"y":384,"w":384,"h":384},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":384,"h":384},"sourceSize":{"w":384,"h":384}}
+],"meta":{"app":"https://www.leshylabs.com/apps/sstool/","version":"Leshy SpriteSheet Tool v0.8.4","image":"SpdSlimeSpritesheet.png","size":{"w":1152,"h":771},"scale":1}}
