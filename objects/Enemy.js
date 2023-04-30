@@ -11,7 +11,7 @@ export class Enemy extends Phaser.GameObjects.Sprite{
             this.target = target
             this.alive = true
             // look @ last project and use the system for finding new enemies i think that will help alot 
-            this.detection = new Detection(this.scene, this.x, this.y, 500, 500)
+            this.detection = new Detection(this.scene, this.x, this.y, 900, 900)
             this.attacksDetect = new Detection(this.scene, this.x, this.y, 200, 200) 
             this.attacksDetect.setOrigin(.4)
             this.setOrigin(1)
@@ -76,11 +76,9 @@ export class Enemy extends Phaser.GameObjects.Sprite{
         // if this.target.x < or > this.body.position then this tells it to flip the sprite or not
         if(this.target.x + 300 <= this.body.position.x){
             this.flipX = false
-            this.setData('boom', 'right')
         }else if(this.target.x - 300  >= this.body.position.x){
             this.flipX = true
             this.slimeFlipFlop = true
-            this.setData('boom', 'left')
         }
 
         if(this.slimeFlipFlop && this.atDetect){
@@ -127,7 +125,7 @@ export class Enemy extends Phaser.GameObjects.Sprite{
     attack(d, t){
         this.detected = true
         if(this.alive){
-            this.scene.physics.moveToObject(this, this.target, 30)
+            this.scene.physics.moveToObject(this, this.target, 120)
        } 
     }
 

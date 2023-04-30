@@ -1,8 +1,8 @@
 import {Detection} from '../objects/Detection.js'
 import {HitNumber} from '../objects/HitNumber.js'
-export class SpdSlime extends Phaser.GameObjects.Sprite{
+export class bruteSlime extends Phaser.GameObjects.Sprite{
     constructor(scene, target, x, y, hp){
-        super(scene, x, y, 'SpdSlimeAnims')
+        super(scene, x, y, 'bruteSlimeAnims')
             this.scene = scene
             this.scene.add.existing(this)
             this.scene.physics.add.existing(this)
@@ -10,8 +10,9 @@ export class SpdSlime extends Phaser.GameObjects.Sprite{
             this.hp = hp
             this.alive = true
             this.target = target
+            this.slimeFlipFlop = false
 
-            this.detection = new Detection(this.scene, this.x, this.y, 1500, 900)
+            this.detection = new Detection(this.scene, this.x, this.y, 1100, 800)
             this.atckDetect = new Detection(this.scene, this.x, this.y, 200, 300)
             
             this.attackingDetection()
@@ -24,14 +25,14 @@ export class SpdSlime extends Phaser.GameObjects.Sprite{
             this.attackCounter = 1000
             this.attackTimer = 1000
 
-            this.activeAnimation = 'spdSlimeIdle'
-            this.nextAnimation = 'spdSlimeIdle'
+            this.activeAnimation = 'bruteSlimeIdle'
+            this.nextAnimation = 'bruteSlimeIdle'
     }
     preUpdate(t, d){
         super.preUpdate(t, d)
 
-        this.body.setSize(250, 300, true)
-        this.body.setOffset(60,90)
+        this.body.setSize(250, 320, true)
+        this.body.setOffset(250,60)
 
         this.attackTimer -= d
 
@@ -41,11 +42,11 @@ export class SpdSlime extends Phaser.GameObjects.Sprite{
         this.body.setVelocityY(0)
 
         if(this.detected){
-            this.nextAnimation = 'spdSlimeMove'
+            this.nextAnimation = 'bruteSlimeMove'
         }
 
         if(this.atckDetection){
-            this.nextAnimation = 'spdSlimeAttack'
+            this.nextAnimation = 'bruteSlimeAttack'
         }
         
 
@@ -57,6 +58,10 @@ export class SpdSlime extends Phaser.GameObjects.Sprite{
             this.slimeFlipFlop = true
         }
 
+        if(this.slimeFlipFlop){
+            this.body.setSize(250, 280, true)
+            this.body.setOffset(10, 100)
+        }
 
         if(this.nextAnimation !== this.activeAnimation){
             this.anims.play(this.nextAnimation)
@@ -65,6 +70,7 @@ export class SpdSlime extends Phaser.GameObjects.Sprite{
 
         this.atckDetection = false
         this.detected = false
+        this.slimeFlipFlop = false
 
     }
     create(){}
@@ -102,7 +108,7 @@ export class SpdSlime extends Phaser.GameObjects.Sprite{
     move(){
         this.detected = true
         if(this.alive){
-            this.scene.physics.moveToObject(this, this.target, 200)
+            this.scene.physics.moveToObject(this, this.target, 100)
         }
     }
     attack(){

@@ -14,7 +14,7 @@ export class GameOver extends Phaser.Scene {
 
   update() {
     if(this.startScene.isDown){
-      this.scene.start('main-level')
+      this.scene.start('dungeon-one')
     }
   }
 }

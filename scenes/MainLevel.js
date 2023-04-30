@@ -1,6 +1,5 @@
 import { Enemy } from '../objects/Enemy.js';
 import { Player } from '../objects/Player.js'
-import { SpdSlime } from '../objects/SpdSlime.js'
 
 export class MainLevel extends Phaser.Scene {
   constructor() {
@@ -14,6 +13,7 @@ export class MainLevel extends Phaser.Scene {
     this.load.atlas('PlayerAnims', 'image/Player_spritesheet.png', 'image/Player_sprites.json')
     this.load.atlas('SlimeAnims', 'image/Slimespritesheet.png', 'image/Slimesprites.json')
     this.load.atlas('SpdSlimeAnims', 'image/SpdSlimeSpritesheet.png', 'image/SpdSlimeSprites.json')
+    this.load.atlas('bruteSlimeAnims', 'image/bruteSpriteSheet.png', 'image/bruteSprites.json')
   }
 
   addPlatform(x, y, wd, ht){
@@ -41,13 +41,8 @@ export class MainLevel extends Phaser.Scene {
     // creating animation for reg slime
     this.anims.create({ key : 'slimeMove', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'move', end: 7, zeroPad: 2}), frameRate:5 , repeat: -1})
     this.anims.create({ key : 'slimeIdle', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'move', end: 0 , zeroPad: 2}), frameRate:5 , repeat: 0})
-    this.anims.create({ key: 'slimeAttack', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'attack', end: 7, zeroPad: 2}), frameRate: 10, repeat: 0})
+    this.anims.create({ key: 'slimeAttack', frames: this.anims.generateFrameNames('SlimeAnims', {prefix: 'attack', end: 7, zeroPad: 2}), frameRate: 10, repeat: -1})
 
-    // creating animation for spd slime | the prefix is right i put it wrong
-    this.anims.create({ key: 'spdSlimeAttack', frames: this.anims.generateFrameNames('SpdSlimeAnims', {prefix: 'move', end: 2, zeroPad: 2}), frameRate: 5, repeat: 0})
-    this.anims.create({ key: 'spdSlimeMove', frames: this.anims.generateFrameNames('SpdSlimeAnims', {prefix: 'attack', end: 2, zeroPad: 2}), frameRate: 5, repeat: -1})
-    this.anims.create({ key: 'spdSlimeIdle', frames: this.anims.generateFrameNames('SpdSlimeAnims', {prefix: 'move', end: 0, zeroPad: 2}), frameRate: 5, repeat: 0})
- 
     // create colliders after all objects exist
     this.group = this.physics.add.group({
           collideWorldBounds: true,
@@ -64,10 +59,6 @@ export class MainLevel extends Phaser.Scene {
     this.newbie = new Player(this, 50, 600)
     
     this.regSlime = new Enemy(this, this.newbie.block, 1205, 600, 25)
-
-    //this.spdSlime = new SpdSlime(this, this.newbie.block, 905, 600, 50)
-
-
     
     this.enemies.push(this.regSlime, this.spdSlime)
 
@@ -107,7 +98,6 @@ export class MainLevel extends Phaser.Scene {
         this.text1 = true
       }
     }
-
   }
 
   createColliders() {
@@ -153,7 +143,7 @@ export class MainLevel extends Phaser.Scene {
       }
 
       // player should go right
-      if(n.x - 50 < e.x - 50){
+      if(n.block - 50 < e.x - 50){
         n.gettingHit = true
         n.body.setVelocity(650, -100)
         e.body.setVelocity(-800, -100)
@@ -161,7 +151,7 @@ export class MainLevel extends Phaser.Scene {
 
       
       // player should go left
-      if(n.x + 50 > e.x - 50){
+      if(n.block + 50 > e.x - 50){
         n.gettingHit = true
         n.body.setVelocity(-650, -100)
         e.body.setVelocity(800, -100)
