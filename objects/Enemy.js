@@ -28,6 +28,7 @@ export class Enemy extends Phaser.GameObjects.Sprite{
             this.activeAnimation = 'slimeIdle'
             this.nextAnimation = 'slimeIdle'
 
+            this.scene.enemies.push(this);
     }
     preUpdate(t, d){
         // for sprites **1(in todo.md)

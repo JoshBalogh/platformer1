@@ -27,6 +27,8 @@ export class bruteSlime extends Phaser.GameObjects.Sprite{
 
             this.activeAnimation = 'bruteSlimeIdle'
             this.nextAnimation = 'bruteSlimeIdle'
+
+            this.scene.enemies.push(this);
     }
     preUpdate(t, d){
         super.preUpdate(t, d)

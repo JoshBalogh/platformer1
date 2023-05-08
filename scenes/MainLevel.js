@@ -1,6 +1,5 @@
 import { Enemy } from '../objects/Enemy.js';
 import { Player } from '../objects/Player.js'
-
 export class MainLevel extends Phaser.Scene {
   constructor() {
     super({ key: "main-level" });
@@ -69,6 +68,8 @@ export class MainLevel extends Phaser.Scene {
     this.cameras.main.startFollow(this.newbie)
 
     this.nextScene = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N)
+    this.nextSkip = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y)
+    this.skip = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T)
 
     this.createColliders();
     
@@ -98,6 +99,13 @@ export class MainLevel extends Phaser.Scene {
         this.text1 = true
       }
     }
+
+    // if(this.skip.isDown){
+    //   this.scene.start('final-lvl')
+    // }
+    // if(this.nextSkip.isDown){
+    //   this.scene.start('dungeon-one')
+    // }
   }
 
   createColliders() {
@@ -157,6 +165,4 @@ export class MainLevel extends Phaser.Scene {
         e.body.setVelocity(800, -100)
       }
   }
-
-
 }

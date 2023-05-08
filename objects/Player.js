@@ -40,7 +40,6 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.scene.physics.add.existing(this.block)
         this.block.body.setAllowGravity(false)
 
-
         // creating hp bar
         this.hpRed = this.scene.add.rectangle(200, 20, 200, 20, 0xff0000)
         this.scene.physics.add.existing(this.hpRed)
@@ -50,11 +49,15 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.scene.physics.add.existing(this.hpGreen)
         this.hpGreen.body.setAllowGravity(false)
 
-        
+        // square so player doesn't fall through
+        this.square = this.scene.add.rectangle(200, 20, 10, 10, 0x000000, 0)
+        this.scene.physics.add.existing(this.square)
+        this.scene.add.existing(this.square)
+        this.square.body.setAllowGravity(false)
 
         // jumps is how many jumps there are  | maxJumps is how many times you can jump | jumpCoolDown...
         this.jumps = 0
-        this.maxJumps = 200000
+        this.maxJumps = 2
         this.jumpCooldown = false
 
         // setData stuff ('first', true or false) | first is what the method is being called 
@@ -76,8 +79,10 @@ export class Player extends Phaser.GameObjects.Sprite{
         this.hitTimer -= d
 
         // hp bar is to follow player
-        this.hpRed.setPosition(this.body.x + 50, this.body.y - 100)
-        this.hpGreen.setPosition(this.body.x + 50, this.body.y - 100)
+        this.hpRed.setPosition(this.body.x + 50, this.body.y - 40)
+        this.hpGreen.setPosition(this.body.x + 50, this.body.y - 40)
+
+        this.square.setPosition(this.body.x + 50, this.body.y + 170)
 
         // if player on floor then jumps = 0 else if jumps = 0 but it isn't on floor it will add to jump so when maxJumps are at 2(or what you put it at)
         if(this.body.onFloor()) {

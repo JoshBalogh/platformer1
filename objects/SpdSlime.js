@@ -26,6 +26,8 @@ export class SpdSlime extends Phaser.GameObjects.Sprite{
 
             this.activeAnimation = 'spdSlimeIdle'
             this.nextAnimation = 'spdSlimeIdle'
+
+            this.scene.enemies.push(this);
     }
     preUpdate(t, d){
         super.preUpdate(t, d)
